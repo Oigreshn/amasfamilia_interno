@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombrecompleto');
             $table->date('fecha_nacimiento')->nullable();
             $table->string('documento')->nullable();
-            $table->foreignId('id_miembroprincipal')->nullable()->constrained('miembrosprincipales','id_miembroprincipal'); // Relación con la tabla 'MiembrosPrimarios'
+            $table->foreignId('id_miembroprincipal')->nullable()->constrained('miembrosprincipales','id_miembroprincipal')->onDelete('cascade'); // Relación con la tabla 'MiembrosPrimarios'
             $table->foreignId('id_parentesco')->nullable()->constrained('parentescos','id_parentesco'); // Relación con la tabla 'Parentescos'
             $table->string('telefono')->nullable();
             $table->string('correo')->nullable();

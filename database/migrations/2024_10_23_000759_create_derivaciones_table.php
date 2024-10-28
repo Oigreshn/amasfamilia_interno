@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('derivaciones', function (Blueprint $table) {
             $table->id('id_derivacion');
-            $table->foreignId('id_miembroprincipal')->nullable()->constrained('miembrosprincipales','id_miembroprincipal'); // Relación con la tabla 'MiembrosPrimarios'
+            $table->foreignId('id_miembroprincipal')->nullable()->constrained('miembrosprincipales','id_miembroprincipal')->onDelete('cascade'); // Relación con la tabla 'MiembrosPrimarios'
             $table->foreignId('id_entidad')->nullable()->constrained('entidades','id_entidad'); // Relación con la tabla 'Entidades'
             $table->integer('cantidad')->nullable();
             $table->foreignId('id_tipotarjeta')->nullable()->constrained('tipotarjetas','id_tipotarjeta'); // Relación con la tabla 'Tipotarjetas'

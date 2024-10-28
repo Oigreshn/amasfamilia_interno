@@ -1,7 +1,7 @@
 <div class="bg-gray-100 border rounded-lg border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto">
 
-        {{-- Mensajes de éxito o error --}}
+        {{-- Mostrar mensaje de éxito --}}
         @if (session('success'))
             <div 
                 x-data="{ show: true }" 
@@ -10,18 +10,17 @@
                 class="mt-2 text-indigo-500"
             >
                 <div class="flex items-center">
-                    <!-- Ícono SVG de éxito -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <!-- Ícono SVG de éxito en indigo -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 10-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
-        
-                    <!-- Título -->
-                    <h4 class="font-bold">¡Éxito!</h4>
+                    <h4 class="font-bold text-indigo-500">¡Éxito!</h4>
                 </div>
-                <x-input-error :messages="session('success')" class="mt-1" />
+                <x-input-error :messages="session('success')" class="text-indigo-500 bg-indigo-100 border-indigo-500" />
             </div>
         @endif
 
+        {{-- Mostrar mensaje de error --}}
         @if (session('error'))
             <div 
                 x-data="{ show: true }" 
@@ -30,14 +29,13 @@
                 class="mt-2 text-red-500"
             >
                 <div class="flex items-center">
-                    <!-- Ícono SVG de error -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <!-- Ícono SVG de error en rojo -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-red-500 mr-2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                     </svg>                      
-                    <!-- Título -->
-                    <h4 class="font-bold">¡Error!</h4>
+                    <h4 class="font-bold text-red-500">¡Error!</h4>
                 </div>
-                <x-input-error :messages="session('error')" class="mt-1" />
+                <x-input-error :messages="session('error')" />
             </div>
         @endif
 
@@ -48,9 +46,10 @@
                 wire:click="openCreateModal()"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                    <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.902 7.098a3.75 3.75 0 0 1 3.903-.884.75.75 0 1 0 .498-1.415A5.25 5.25 0 0 0 8.005 9.75H7.5a.75.75 0 0 0 0 1.5h.054a5.281 5.281 0 0 0 0 1.5H7.5a.75.75 0 0 0 0 1.5h.505a5.25 5.25 0 0 0 6.494 2.701.75.75 0 1 0-.498-1.415 3.75 3.75 0 0 1-4.252-1.286h3.001a.75.75 0 0 0 0-1.5H9.075a3.77 3.77 0 0 1 0-1.5h3.675a.75.75 0 0 0 0-1.5h-3c.105-.14.221-.274.348-.402Z" clip-rule="evenodd" />
                 </svg>
-                Agregar una Derivación
+              
+                Agregar una Asignación Económica
             </button>
         </div>         
 
@@ -59,11 +58,11 @@
             <div class="p-4 flex">
                 <!-- Campo de búsqueda con etiqueta arriba -->
                 <div class="flex flex-col w-full md:w-1/2">
-                    <label class="block mb-1 text-sm text-gray-700 uppercase font-bold" for="termino">Buscar Derivación</label>
+                    <label class="block mb-1 text-sm text-gray-700 uppercase font-bold" for="termino">Buscar Asignación</label>
                     <input 
                         id="termino"
                         type="text"
-                        placeholder="Buscar Derivación..."
+                        placeholder="Buscar Asignación Económica..."
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring 
                         focus:ring-indigo-200 focus:ring-opacity-50 px-3 py-1 uppercase"
                         wire:model="termino"
@@ -134,7 +133,7 @@
     <div class="max-h-full w-full max-w-6xl overflow-y-auto sm:rounded-2xl bg-white p-8">
         <div class="w-full">
             <div class="mb-4 text-center">
-                <h1 class="font-extrabold text-2xl">Agregar una Derivación</h1> 
+                <h1 class="font-extrabold text-2xl">Agregar una Asignación Económica</h1> 
             </div>
 
             {{-- Formulario --}}
@@ -228,7 +227,7 @@
             <div class="py-4 mb-4 flex flex-row gap-6">
                 <button 
                         class="p-3 bg-black rounded-full text-white w-full font-semibold" 
-                        wire:click="createorUpdateDerivacion">{{ isset($miDerivacion->id_derivacion) ? 'Actualizar' : 'Crear' }} Derivación</button>
+                        wire:click="createorUpdateDerivacion">{{ isset($miDerivacion->id_derivacion) ? 'Actualizar' : 'Crear' }} Asignación Económica</button>
                 </button>
                 <button 
                         class="p-3 bg-white border rounded-full w-full font-semibold" 

@@ -10,6 +10,7 @@ use App\Models\EstadoCivil;
 use Livewire\WithPagination;
 use App\Models\EstadoLaboral;
 use App\Models\EstadoMiembro;
+use App\Models\Evento;
 use App\Models\PermisoTrabajo;
 use App\Models\MiembroPrincipal;
 use App\Models\MiembroSecundario;
@@ -48,8 +49,10 @@ class MiembroPrincipalDatagrid extends Component
     // Parametros
     public $miMiembroPrincipal = null;
     public $miMiembroSecundario = null;
+    public $miEvento = null;
     public $modal = false;
     public $modalSegundo = false;
+    public $modalAgenda = false;
     public $siActualiza = false;
     
     protected $rules = [
@@ -243,6 +246,25 @@ class MiembroPrincipalDatagrid extends Component
     
         $this->modalSegundo = true; // Muestra el modal
     }
+
+    // Inicio de Controles de Modal para Agenda
+    public function openAgenda($id_miembroprincipal = null)
+    {    
+        $this->siActualiza = false; 
+
+        if($id_miembroprincipal){
+            
+            $this->miEvento = Evento::where('id_miembroprincipal', $id_miembroprincipal)->get();
+
+            if ($this->miEvento->isEmpty()) {
+                $this->miEvento = collect(); // Colección vacía si no hay resultados
+            }
+        } else {
+            $this->clearFields();
+        }
+
+        $this->modalAgenda = true; // Muestra el modal
+    }
    
     public function closeCreateModal(){
         $this->clearFields();
@@ -254,6 +276,12 @@ class MiembroPrincipalDatagrid extends Component
         $this->clearFields();
         $this->resetValidation();
         $this->modalSegundo = false;
+    }
+
+    public function closeModalAgenda(){
+        $this->clearFields();
+        $this->resetValidation();
+        $this->modalAgenda = false;
     }
 
     public function render()
@@ -281,6 +309,11 @@ class MiembroPrincipalDatagrid extends Component
         // Si hay un miembro principal seleccionado, puedes cargar sus miembros secundarios
         if ($this->id_miembroprincipal) {
             $miMiembroSecundario = MiembroSecundario::where('id_miembroprincipal', $this->id_miembroprincipal)->get();
+        }
+
+        $miEvento = collect();
+        if ($this->id_miembroprincipal) {
+            $miEvento = Evento::where('id_miembroprincipal', $this->id_miembroprincipal)->get();
         }
 
 

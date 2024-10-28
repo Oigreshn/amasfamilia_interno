@@ -96,10 +96,10 @@ class EstadoCivilDatagrip extends Component
             } catch (QueryException $e) {
     
                 if ($e->getCode() == '23000') { // Código SQLSTATE para violación de clave foránea
-                    return redirect()->back()->with('error', 'No se puede eliminar el Esatdo Civil porque está relacionado con otros registros.');
+                    return redirect()->back()->with('error', 'No se puede eliminar el Estado Civil porque está relacionado con otros registros.');
                 }
         
-                return redirect()->back()->with('error', 'Ocurrió un error al intentar eliminar el Esatdo Civil.');
+                return redirect()->back()->with('error', 'Ocurrió un error al intentar eliminar el Estado Civil.');
             }
         
         return redirect()->route('estadocivil.index');

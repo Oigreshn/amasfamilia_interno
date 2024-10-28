@@ -108,7 +108,7 @@ class MiembroSecundarioDatagrid extends Component
     {
         $this->validate();
 
-        // try {
+        try {
 
             if (is_null($this->miMiembroSecundario)) {
                 MiembroSecundario::create([
@@ -148,9 +148,9 @@ class MiembroSecundarioDatagrid extends Component
             $this->clearFields();
             $this->modal = false;
         
-        // } catch (\Exception $e) {
-        //     session()->flash('error', 'Ocurrió un error al guardar el Miembro Secundario. Inténtalo nuevamente.');
-        // }
+        } catch (\Exception $e) {
+            session()->flash('error', 'Ocurrió un error al guardar el Miembro Secundario. Inténtalo nuevamente.');
+        }
 
         return redirect()->route('miembrosecundario.index'); 
     }

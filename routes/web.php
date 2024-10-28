@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\DerivacionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaisController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EstadoCivilController;
 use App\Http\Controllers\EstadoLaboralController;
 use App\Http\Controllers\EstadoMiembrosController;
+use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MiembroPrincipalController;
 use App\Http\Controllers\MiembroSecundarioController;
 use App\Http\Controllers\ParentescoController;
@@ -41,7 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/parentesco', [ParentescoController::class, 'index'])->name('parentesco.index');
     Route::get('/miembrosprincipales', [MiembroPrincipalController::class, 'index'])->name('miembrosprincipales.index');
     Route::get('/miembrosecundario', [MiembroSecundarioController::class, 'index'])->name('miembrosecundario.index');
-    Route::get('/derivaciones', [DerivacionController::class, 'index'])->name('derivaciones.index');
+    Route::get('/asignaciones', [DerivacionController::class, 'index'])->name('derivaciones.index');
+    Route::get('/eventos', [CalendarioController::class, 'index'])->name('eventos.index');
+    Route::get('/historial', [HistorialController::class, 'index'])->name('historial.index');
     
 });
 

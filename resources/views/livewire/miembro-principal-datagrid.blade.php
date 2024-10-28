@@ -88,7 +88,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($miembrosprincipales as $miembroprincipal)
+                    @foreach($miembrosprincipales as $miembroprincipal) 
                         <tr class="border-t">
                             <td class="px-4 py-2 text-center">{{ $miembroprincipal->id_miembroprincipal }}</td>
                             <td class="px-4 py-2 text-center">{{ $miembroprincipal->nombrecompleto }}</td>
@@ -111,6 +111,13 @@
                                         <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd" />
                                         <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                                     </svg>                              
+                                </button>
+                                <button wire:click="openAgenda({{ $miembroprincipal->id_miembroprincipal }})" id="view-book-{{ $miembroprincipal->id_miembroprincipal }}"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded w-full md:w-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                        <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
+                                        <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375Zm9.586 4.594a.75.75 0 0 0-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.116-.062l3-3.75Z" clip-rule="evenodd" />
+                                    </svg>                          
                                 </button>
                                 <button wire:click="eliminarMiembroPrincipal({{ $miembroprincipal->id_miembroprincipal }})" 
                                     onclick="confirm('¿Seguro de eliminar este Miembro Principal?') || event.stopImmediatePropagation()" id="delete-btn-{{ $miembroprincipal->id_miembroprincipal }}"
@@ -435,6 +442,73 @@
                     <button 
                         class="px-4 py-2 bg-gray-800 text-white rounded-full font-semibold hover:bg-gray-700"
                         wire:click.prevent="closeModalSegundo">
+                        Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+{{-- Modal para la Agenda --}}
+@if ($modalAgenda)
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 py-10">
+        <div class="max-h-full w-full max-w-6xl overflow-y-auto sm:rounded-2xl bg-white p-8 shadow-lg">
+            <div class="w-full">
+                <div class="mb-4 text-center">
+                    <h1 class="font-extrabold text-2xl">Agenda de Reuniones o Eventos</h1>
+                </div>
+
+                <!-- Verificar si hay miembros secundarios -->
+                @if ($miEvento->isEmpty())
+                    <div class="py-4 text-center text-gray-500">
+                        <p class="text-lg">No hay Eventos registrados actualmente.</p>
+                    </div>
+                @else
+                    <!-- Tabla centrada y mejorada -->
+                    <div class="py-4 overflow-x-auto shadow-md rounded-lg">
+                        <table class="min-w-full table-auto bg-white border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-center px-4 py-2">ID</th>
+                                    <th class="text-center px-4 py-2">Tipo de Apoyo</th>
+                                    <th class="text-center px-4 py-2">Estado Evento</th>
+                                    <th class="text-center px-4 py-2">Fecha</th>
+                                    <th class="text-center px-4 py-2">Hora</th>
+                                    <th class="text-center px-4 py-2">Atendido Por</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($miEvento as $evento)
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="text-center px-4 py-2">{{ $evento->id_evento }}</td>
+                                        <td class="text-center px-4 py-2">{{ $evento->tipo_apoyo }}</td>
+                                        <td class="text-center px-4 py-2">
+                                            <span class="
+                                                px-2 py-1 rounded-full text-white font-semibold
+                                                {{ $evento->estado_evento == 'PROGRAMADA' ? 'bg-blue-500' : '' }}
+                                                {{ $evento->estado_evento == 'REALIZADA' ? 'bg-green-500' : '' }}
+                                                {{ $evento->estado_evento == 'SUSPENDIDA' ? 'bg-red-500' : '' }}
+                                                {{ !in_array($evento->estado_evento, ['PROGRAMADA', 'REALIZADA', 'SUSPENDIDA']) ? 'bg-gray-400' : '' }}">
+                                                {{ $evento->estado_evento }}
+                                            </span>
+                                        </td>
+                                        <td class="text-center px-4 py-2">{{ \Carbon\Carbon::parse($evento->fecha)->format('d/m/Y') }}</td>
+                                        <td class="text-center px-4 py-2">{{ \Carbon\Carbon::parse($evento->hora)->format('H:i') }}</td>
+                                        <td class="text-center px-4 py-2">{{ $evento->usuarios->name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                @endif
+
+                <!-- Botón de salida -->
+                <div class="py-4 flex justify-end">
+                    <button 
+                        class="px-4 py-2 bg-gray-800 text-white rounded-full font-semibold hover:bg-gray-700"
+                        wire:click.prevent="closeModalAgenda">
                         Salir
                     </button>
                 </div>
